@@ -49,7 +49,7 @@ Clone this repository to your Klipper configuration directory or use it as a bac
 
 ---
 
-## 🔧 Installation Guide
+## 🔧 Installation Guide (by Chatgpt)
 
 ### 1. Install Klipper
 
