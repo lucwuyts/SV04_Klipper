@@ -1,0 +1,638 @@
+-------------------- Log Start | Thu Mar 19 08:14:29 2026 --------------------
+platform: Linux-5.16.17-sun50iw9-aarch64-with-glibc2.31
+data_path: /home/biqu/printer_data
+is_default_data_path: False
+config_file: /home/biqu/printer_data/config/moonraker.conf
+backup_config: /home/biqu/printer_data/config/.moonraker.conf.bkp
+startup_warnings: []
+verbose: False
+debug: False
+asyncio_debug: False
+is_backup_config: False
+is_python_package: False
+instance_uuid: afd9e8a02a184692913761033136c0d5
+unix_socket_path: /home/biqu/printer_data/comms/moonraker.sock
+structured_logging: False
+software_version: v0.9.3-102-gf20feff
+git_branch: master
+git_remote: origin
+git_repo_url: https://github.com/Arksine/moonraker.git
+modified_files: []
+unofficial_components: []
+log_file: /home/biqu/printer_data/logs/moonraker.log
+python_version: 3.9.2 (default, Mar 20 2025, 02:07:39)  [GCC 10.2.1 20210110]
+launch_args: /home/biqu/moonraker-env/bin/python /home/biqu/moonraker/moonraker/moonraker.py -d /home/biqu/printer_data
+msgspec_enabled: False
+uvloop_enabled: False
+
+#################### Moonraker Configuration ####################
+
+[server]
+host = 0.0.0.0
+port = 7125
+klippy_uds_address = /home/biqu/printer_data/comms/klippy.sock
+
+[authorization]
+trusted_clients = 
+	10.0.0.0/8
+	127.0.0.0/8
+	169.254.0.0/16
+	172.16.0.0/12
+	192.168.0.0/16
+	FE80::/10
+	::1/128
+cors_domains = 
+	*.lan
+	*.local
+	*://localhost
+	*://localhost:*
+	*://my.mainsail.xyz
+	*://app.fluidd.xyz
+
+[octoprint_compat]
+
+[history]
+
+[update_manager]
+channel = dev
+refresh_interval = 168
+
+[update_manager mainsail-config]
+type = git_repo
+primary_branch = master
+path = ~/mainsail-config
+origin = https://github.com/mainsail-crew/mainsail-config.git
+managed_services = klipper
+
+[update_manager mainsail]
+type = web
+channel = stable
+repo = mainsail-crew/mainsail
+path = ~/mainsail
+
+[update_manager crowsnest]
+type = git_repo
+path = ~/crowsnest
+origin = https://github.com/mainsail-crew/crowsnest.git
+install_script = tools/install.sh
+
+[update_manager sonar]
+type = git_repo
+path = ~/sonar
+origin = https://github.com/mainsail-crew/sonar.git
+primary_branch = main
+managed_services = sonar
+install_script = tools/install.sh
+
+[update_manager timelapse]
+type = git_repo
+primary_branch = main
+path = ~/moonraker-timelapse
+origin = https://github.com/mainsail-crew/moonraker-timelapse.git
+managed_services = klipper moonraker
+
+[update_manager KlipperScreen]
+type = git_repo
+path = ~/KlipperScreen
+origin = https://github.com/bigtreetech/KlipperScreen.git
+env = ~/.KlipperScreen-env/bin/python
+requirements = scripts/KlipperScreen-requirements.txt
+install_script = scripts/KlipperScreen-install.sh
+managed_services = KlipperScreen
+
+#################################################################
+All Configuration Files:
+/home/biqu/printer_data/config/moonraker.conf
+#################################################################
+Loading Sqlite database provider. Sqlite Version: 3.34.1
+Unsafe Shutdown Count: 203
+
+System Info:
+
+***python***
+  version: (3, 9, 2, 'final', 0)
+  version_string: 3.9.2 (default, Mar 20 2025, 02:07:39)  [GCC 10.2.1 20210110]
+
+***cpu_info***
+  cpu_count: 4
+  bits: 64bit
+  processor: aarch64
+  cpu_desc: 
+  serial_number: 
+  hardware_desc: 
+  model: 
+  total_memory: 1010636
+  memory_units: kB
+
+***sd_info***
+
+***distribution***
+  name: Debian GNU/Linux 11 (bullseye)
+  id: debian
+  version: 11
+  version_parts: {'major': '11', 'minor': '', 'build_number': ''}
+  like: 
+  codename: bullseye
+  release_info: {}
+  kernel_version: 5.16.17-sun50iw9
+
+***virtualization***
+  virt_type: none
+  virt_identifier: none
+
+***network***
+
+***canbus***
+
+***Allowed Services***
+  klipper_mcu
+  webcamd
+  MoonCord
+  KlipperScreen
+  moonraker-telegram-bot
+  moonraker-obico
+  sonar
+  crowsnest
+  octoeverywhere
+  Gab3d-Klipper-Utilities
+Module libcamera unavailable, import failed
+
+Systemd unit moonraker.service:
+unit_name: moonraker.service
+is_default: True
+manager: systemd
+Properties:
+**Requires=['sysinit.target', 'system.slice', '-.mount', 'network-online.target']
+**After=['systemd-journald.socket', 'sysinit.target', 'system.slice', '-.mount', 'network-online.target', 'basic.target']
+**SupplementaryGroups=['moonraker-admin']
+**EnvironmentFiles=/home/biqu/printer_data/systemd/moonraker.env
+**ExecStart=/home/biqu/moonraker-env/bin/python $MOONRAKER_ARGS
+**WorkingDirectory=/home/biqu/moonraker
+**FragmentPath=/etc/systemd/system/moonraker.service
+**Description=API Server for Klipper SV1
+**User=biqu
+
+Systemd unit klipper.service:
+unit_name: klipper.service
+is_default: True
+manager: systemd
+Properties:
+**Requires=['sysinit.target', 'system.slice', '-.mount']
+**After=['systemd-journald.socket', 'sysinit.target', '-.mount', 'basic.target', 'system.slice', 'klipper-mcu.service', 'network-online.target']
+**SupplementaryGroups=[]
+**EnvironmentFiles=/home/biqu/printer_data/systemd/klipper.env
+**ExecStart=/home/biqu/klippy-env/bin/python $KLIPPER_ARGS
+**WorkingDirectory=/home/biqu/klipper
+**FragmentPath=/etc/systemd/system/klipper.service
+**Description=Klipper 3D Printer Firmware SV1
+**User=biqu
+Git Repo moonraker: Warnings detected:
+  Repo has untracked source files: ['moonraker/components/timelapse.py']
+Git Repo klipper: Warnings detected:
+  Repo has untracked source files: ['klippy/extras/gcode_shell_command.py']
+Git Repo mainsail-config: No warnings detected
+Git Repo crowsnest: No warnings detected
+Git Repo sonar: No warnings detected
+Git Repo timelapse: No warnings detected
+Git Repo KlipperScreen: Warnings detected:
+  Repo has diverged from remote
+Klipper Version: v0.13.0-189-ge1ba7c17c-dirty
+2026-03-19 09:14:29,141 [file_manager.py:get_file_list()] - Updating File List <gcodes>...
+2026-03-19 09:47:18,575 [authorization.py:_check_trusted_connection()] - Trusted Connection Detected, IP: 10.0.250.135
+2026-03-19 09:47:19,085 [application.py:prepare()] - Upload Request Received from 10.0.250.135
+Content-Type: multipart/form-data; boundary=------------------------691348089924f58d
+2026-03-19 09:47:21,235 [application.py:post()] - Processing Uploaded File: Rose_3cm_slim_0.2mm_PLA_Generic Klipper Printer_2h9m.gcode
+2026-03-19 09:47:22,024 [shell_command.py:pipe_data_received()] - INFO:metadata:Processor preprocess_cancellation is disabled
+
+2026-03-19 09:47:22,388 [shell_command.py:_check_proc_success()] - Command (/home/biqu/moonraker-env/bin/python /home/biqu/moonraker/moonraker/components/file_manager/metadata.py -c /tmp/metacfg-47vucd_t.json) successfully finished
+2026-03-19 09:47:22,393 [klippy_apis.py:start_print()] - Requesting Job Start, filename = Rose_3cm_slim_0.2mm_PLA_Generic Klipper Printer_2h9m.gcode
+2026-03-19 09:47:22,446 [application.py:log_request()] - 201 POST /api/files/local (10.0.250.135) [_TRUSTED_USER_] 3363.33ms
+2026-03-19 09:47:22,621 [job_state.py:_send_job_event()] - Job Started: Rose_3cm_slim_0.2mm_PLA_Generic Klipper Printer_2h9m.gcode
+2026-03-19 09:47:23,432 [application.py:log_request()] - 101 GET /websocket (10.0.250.135) [_TRUSTED_USER_] 6.30ms
+2026-03-19 09:47:23,433 [websockets.py:open()] - Websocket Opened: ID: 281473232714960, Proxied: True, User Agent: BBL-Slicer/v01.10.01.50 (light) Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36 Edg/107.0.1418.52, Host Name: 10.0.250.143
+2026-03-19 09:47:23,493 [websockets.py:_handle_identify()] - Websocket 281473232714960 Client Identified - Name: mainsail, Version: 2.14.0, Type: web
+2026-03-19 09:47:45,684 [klippy_apis.py:start_print()] - Requesting Job Start, filename = Rose_3cm_slim_0.2mm_PLA_Generic Klipper Printer_2h9m.gcode
+2026-03-19 09:47:45,943 [job_state.py:_send_job_event()] - Job Started: Rose_3cm_slim_0.2mm_PLA_Generic Klipper Printer_2h9m.gcode
+2026-03-19 09:50:04,095 [application.py:prepare()] - Upload Request Received from 10.0.250.135
+Content-Type: multipart/form-data; boundary=------------------------f524fdc817235690
+2026-03-19 09:50:11,235 [application.py:post()] - Processing Uploaded File: Rose_3cm_slim_0.2mm_PLA_Generic Klipper Printer_2h9m.gcode
+2026-03-19 09:50:12,218 [shell_command.py:pipe_data_received()] - INFO:metadata:Processor preprocess_cancellation is disabled
+
+2026-03-19 09:50:12,591 [shell_command.py:_check_proc_success()] - Command (/home/biqu/moonraker-env/bin/python /home/biqu/moonraker/moonraker/components/file_manager/metadata.py -c /tmp/metacfg-ymci5rej.json) successfully finished
+2026-03-19 09:50:12,596 [klippy_apis.py:start_print()] - Requesting Job Start, filename = Rose_3cm_slim_0.2mm_PLA_Generic Klipper Printer_2h9m.gcode
+2026-03-19 09:50:12,598 [file_manager.py:_check_action()] - 
+Inotify action mismatch:
+Expected action: create_file, Inotify action: modify_file
+Requested path: /home/biqu/printer_data/gcodes/Rose_3cm_slim_0.2mm_PLA_Generic Klipper Printer_2h9m.gcode
+Inotify path: /home/biqu/printer_data/gcodes/Rose_3cm_slim_0.2mm_PLA_Generic Klipper Printer_2h9m.gcode
+Is move/copy: False
+2026-03-19 09:50:12,654 [application.py:log_request()] - 201 POST /api/files/local (10.0.250.135) [_TRUSTED_USER_] 8561.63ms
+2026-03-19 09:50:12,749 [job_state.py:_send_job_event()] - Job Started: Rose_3cm_slim_0.2mm_PLA_Generic Klipper Printer_2h9m.gcode
+2026-03-19 09:50:12,894 [websockets.py:on_close()] - Websocket Closed: ID: 281473232714960 Close Code: 1001, Close Reason: None, Pong Time Elapsed: 9.43
+2026-03-19 09:50:13,472 [application.py:log_request()] - 101 GET /websocket (10.0.250.135) [_TRUSTED_USER_] 5.56ms
+2026-03-19 09:50:13,473 [websockets.py:open()] - Websocket Opened: ID: 281473270811472, Proxied: True, User Agent: BBL-Slicer/v01.10.01.50 (light) Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36 Edg/107.0.1418.52, Host Name: 10.0.250.143
+2026-03-19 09:50:13,686 [authorization.py:_check_trusted_connection()] - Trusted Connection Detected, IP: 127.0.0.1
+2026-03-19 09:50:13,774 [websockets.py:_handle_identify()] - Websocket 281473270811472 Client Identified - Name: mainsail, Version: 2.14.0, Type: web
+2026-03-19 09:51:19,823 [application.py:prepare()] - Upload Request Received from 10.0.250.135
+Content-Type: multipart/form-data; boundary=------------------------c1f8fb3ba396460e
+2026-03-19 09:51:29,043 [application.py:post()] - Processing Uploaded File: Rose_3cm_slim_0.2mm_PLA_Generic Klipper Printer_2h9m.gcode
+2026-03-19 09:51:29,995 [shell_command.py:pipe_data_received()] - INFO:metadata:Processor preprocess_cancellation is disabled
+
+2026-03-19 09:51:30,367 [shell_command.py:_check_proc_success()] - Command (/home/biqu/moonraker-env/bin/python /home/biqu/moonraker/moonraker/components/file_manager/metadata.py -c /tmp/metacfg-e41es530.json) successfully finished
+2026-03-19 09:51:30,371 [klippy_apis.py:start_print()] - Requesting Job Start, filename = Rose_3cm_slim_0.2mm_PLA_Generic Klipper Printer_2h9m.gcode
+2026-03-19 09:51:30,373 [file_manager.py:_check_action()] - 
+Inotify action mismatch:
+Expected action: create_file, Inotify action: modify_file
+Requested path: /home/biqu/printer_data/gcodes/Rose_3cm_slim_0.2mm_PLA_Generic Klipper Printer_2h9m.gcode
+Inotify path: /home/biqu/printer_data/gcodes/Rose_3cm_slim_0.2mm_PLA_Generic Klipper Printer_2h9m.gcode
+Is move/copy: False
+2026-03-19 09:51:30,423 [application.py:log_request()] - 201 POST /api/files/local (10.0.250.135) [_TRUSTED_USER_] 10602.62ms
+2026-03-19 09:51:30,535 [job_state.py:_send_job_event()] - Job Started: Rose_3cm_slim_0.2mm_PLA_Generic Klipper Printer_2h9m.gcode
+2026-03-19 09:51:30,694 [websockets.py:on_close()] - Websocket Closed: ID: 281473270811472 Close Code: 1001, Close Reason: None, Pong Time Elapsed: 6.74
+2026-03-19 09:51:31,259 [application.py:log_request()] - 101 GET /websocket (10.0.250.135) [_TRUSTED_USER_] 6.27ms
+2026-03-19 09:51:31,260 [websockets.py:open()] - Websocket Opened: ID: 281473232714288, Proxied: True, User Agent: BBL-Slicer/v01.10.01.50 (light) Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36 Edg/107.0.1418.52, Host Name: 10.0.250.143
+2026-03-19 09:51:31,343 [websockets.py:_handle_identify()] - Websocket 281473232714288 Client Identified - Name: mainsail, Version: 2.14.0, Type: web
+2026-03-19 09:56:23,443 [klippy_apis.py:cancel_print()] - Requesting job cancel...
+2026-03-19 09:59:55,499 [application.py:prepare()] - Upload Request Received from 10.0.250.135
+Content-Type: multipart/form-data; boundary=------------------------e448bb5ca9183fdc
+2026-03-19 10:00:04,773 [application.py:post()] - Processing Uploaded File: Rose_3cm_slim_0.2mm_PLA_Generic Klipper Printer_2h9m.gcode
+2026-03-19 10:00:05,735 [shell_command.py:pipe_data_received()] - INFO:metadata:Processor preprocess_cancellation is disabled
+
+2026-03-19 10:00:06,105 [shell_command.py:_check_proc_success()] - Command (/home/biqu/moonraker-env/bin/python /home/biqu/moonraker/moonraker/components/file_manager/metadata.py -c /tmp/metacfg-90ijt6x5.json) successfully finished
+2026-03-19 10:00:06,110 [klippy_apis.py:start_print()] - Requesting Job Start, filename = Rose_3cm_slim_0.2mm_PLA_Generic Klipper Printer_2h9m.gcode
+2026-03-19 10:00:06,111 [file_manager.py:_check_action()] - 
+Inotify action mismatch:
+Expected action: create_file, Inotify action: modify_file
+Requested path: /home/biqu/printer_data/gcodes/Rose_3cm_slim_0.2mm_PLA_Generic Klipper Printer_2h9m.gcode
+Inotify path: /home/biqu/printer_data/gcodes/Rose_3cm_slim_0.2mm_PLA_Generic Klipper Printer_2h9m.gcode
+Is move/copy: False
+2026-03-19 10:00:06,163 [application.py:log_request()] - 201 POST /api/files/local (10.0.250.135) [_TRUSTED_USER_] 10666.40ms
+2026-03-19 10:00:06,188 [job_state.py:_send_job_event()] - Job Started: Rose_3cm_slim_0.2mm_PLA_Generic Klipper Printer_2h9m.gcode
+2026-03-19 10:00:06,424 [websockets.py:on_close()] - Websocket Closed: ID: 281473232714288 Close Code: 1001, Close Reason: None, Pong Time Elapsed: 25.06
+2026-03-19 10:00:07,096 [application.py:log_request()] - 101 GET /websocket (10.0.250.135) [_TRUSTED_USER_] 5.03ms
+2026-03-19 10:00:07,097 [websockets.py:open()] - Websocket Opened: ID: 281472895433600, Proxied: True, User Agent: BBL-Slicer/v01.10.01.50 (light) Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36 Edg/107.0.1418.52, Host Name: 10.0.250.143
+2026-03-19 10:00:07,136 [websockets.py:_handle_identify()] - Websocket 281472895433600 Client Identified - Name: mainsail, Version: 2.14.0, Type: web
+2026-03-19 10:08:22,326 [application.py:prepare()] - Upload Request Received from 10.0.250.135
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary31VpZCdpyWTF8ABT
+2026-03-19 10:08:22,354 [application.py:post()] - Processing Uploaded File: Start_End_Macro.cfg
+2026-03-19 10:08:22,369 [application.py:log_request()] - 201 POST /server/files/upload (10.0.250.135) [_TRUSTED_USER_] 47.14ms
+2026-03-19 10:08:23,455 [klippy_connection.py:_on_connection_closed()] - Klippy Connection Removed
+2026-03-19 10:08:24,569 [common.py:build_error()] - JSON-RPC Request Error - Requested Method: printer.objects.query, Code: 503, Message: Klippy Host not connected
+2026-03-19 10:08:24,577 [common.py:build_error()] - JSON-RPC Request Error - Requested Method: printer.info, Code: 503, Message: Klippy Host not connected
+2026-03-19 10:08:24,587 [common.py:build_error()] - JSON-RPC Request Error - Requested Method: printer.objects.query, Code: 503, Message: Klippy Host not connected
+2026-03-19 10:08:24,723 [klippy_connection.py:_do_connect()] - Klippy Connection Established
+2026-03-19 10:08:29,063 [klippy_connection.py:_request_initial_subscriptions()] - Webhooks Subscribed
+2026-03-19 10:08:29,069 [klippy_connection.py:_request_initial_subscriptions()] - GCode Output Subscribed
+2026-03-19 10:08:29,314 [job_state.py:_handle_started()] - Job state initialized: standby
+2026-03-19 10:08:29,582 [klippy_connection.py:_check_ready()] - Klippy ready
+2026-03-19 10:08:29,643 [file_manager.py:get_file_list()] - Updating File List <gcodes>...
+2026-03-19 10:08:30,326 [data_store.py:_init_sensors()] - Configuring available sensors: ['heater_bed', 'extruder', 'extruder1']
+2026-03-19 10:12:40,757 [websockets.py:on_close()] - Websocket Closed: ID: 281472895433600 Close Code: 1001, Close Reason: None, Pong Time Elapsed: 23.52
+2026-03-19 10:12:41,415 [application.py:log_request()] - 101 GET /websocket (10.0.250.135) [_TRUSTED_USER_] 5.59ms
+2026-03-19 10:12:41,416 [websockets.py:open()] - Websocket Opened: ID: 281472896151504, Proxied: True, User Agent: BBL-Slicer/v01.10.01.50 (light) Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36 Edg/107.0.1418.52, Host Name: 10.0.250.143
+2026-03-19 10:12:41,476 [websockets.py:_handle_identify()] - Websocket 281472896151504 Client Identified - Name: mainsail, Version: 2.14.0, Type: web
+2026-03-19 10:17:31,913 [websockets.py:on_close()] - Websocket Closed: ID: 281472896151504 Close Code: 1001, Close Reason: None, Pong Time Elapsed: 10.44
+2026-03-19 10:17:32,451 [application.py:log_request()] - 101 GET /websocket (10.0.250.135) [_TRUSTED_USER_] 5.03ms
+2026-03-19 10:17:32,452 [websockets.py:open()] - Websocket Opened: ID: 281472895198688, Proxied: True, User Agent: BBL-Slicer/v01.10.01.50 (light) Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36 Edg/107.0.1418.52, Host Name: 10.0.250.143
+2026-03-19 10:17:32,509 [websockets.py:_handle_identify()] - Websocket 281472895198688 Client Identified - Name: mainsail, Version: 2.14.0, Type: web
+2026-03-19 10:20:22,256 [application.py:prepare()] - Upload Request Received from 10.0.250.135
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundarygwxw3ZtKrHOivTVe
+2026-03-19 10:20:22,284 [application.py:post()] - Processing Uploaded File: Start_End_Macro.cfg
+2026-03-19 10:20:22,300 [application.py:log_request()] - 201 POST /server/files/upload (10.0.250.135) [_TRUSTED_USER_] 47.00ms
+2026-03-19 10:20:23,392 [klippy_connection.py:_on_connection_closed()] - Klippy Connection Removed
+2026-03-19 10:20:24,660 [klippy_connection.py:_do_connect()] - Klippy Connection Established
+2026-03-19 10:20:29,133 [klippy_connection.py:_request_initial_subscriptions()] - Webhooks Subscribed
+2026-03-19 10:20:29,139 [klippy_connection.py:_request_initial_subscriptions()] - GCode Output Subscribed
+2026-03-19 10:20:29,384 [job_state.py:_handle_started()] - Job state initialized: standby
+2026-03-19 10:20:29,653 [klippy_connection.py:_check_ready()] - Klippy ready
+2026-03-19 10:20:29,742 [file_manager.py:get_file_list()] - Updating File List <gcodes>...
+2026-03-19 10:20:30,147 [data_store.py:_init_sensors()] - Configuring available sensors: ['heater_bed', 'extruder', 'extruder1']
+2026-03-19 10:20:48,123 [application.py:prepare()] - Upload Request Received from 10.0.250.135
+Content-Type: multipart/form-data; boundary=------------------------d0fa33e8c9ba9e91
+2026-03-19 10:21:58,619 [application.py:post()] - Processing Uploaded File: Rose_3cm_slim_0.2mm_PLA_Generic Klipper Printer_7h30m.gcode
+2026-03-19 10:21:59,520 [shell_command.py:pipe_data_received()] - INFO:metadata:Processor preprocess_cancellation is disabled
+
+2026-03-19 10:21:59,899 [shell_command.py:_check_proc_success()] - Command (/home/biqu/moonraker-env/bin/python /home/biqu/moonraker/moonraker/components/file_manager/metadata.py -c /tmp/metacfg-27m0mlfj.json) successfully finished
+2026-03-19 10:21:59,904 [klippy_apis.py:start_print()] - Requesting Job Start, filename = Rose_3cm_slim_0.2mm_PLA_Generic Klipper Printer_7h30m.gcode
+2026-03-19 10:21:59,970 [application.py:log_request()] - 201 POST /api/files/local (10.0.250.135) [_TRUSTED_USER_] 71849.37ms
+2026-03-19 10:22:00,183 [job_state.py:_send_job_event()] - Job Started: Rose_3cm_slim_0.2mm_PLA_Generic Klipper Printer_7h30m.gcode
+2026-03-19 10:24:51,022 [application.py:prepare()] - Upload Request Received from 10.0.250.135
+Content-Type: multipart/form-data; boundary=------------------------068f816660c33143
+2026-03-19 10:24:55,605 [websockets.py:on_close()] - Websocket Closed: ID: 281472895198688 Close Code: 1001, Close Reason: None, Pong Time Elapsed: 13.06
+2026-03-19 10:24:55,978 [application.py:log_request()] - 101 GET /websocket (10.0.250.135) [_TRUSTED_USER_] 5.26ms
+2026-03-19 10:24:55,979 [websockets.py:open()] - Websocket Opened: ID: 281472895191360, Proxied: True, User Agent: BBL-Slicer/v01.10.01.50 (light) Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36 Edg/107.0.1418.52, Host Name: 10.0.250.143
+2026-03-19 10:24:56,280 [websockets.py:_handle_identify()] - Websocket 281472895191360 Client Identified - Name: mainsail, Version: 2.14.0, Type: web
+2026-03-19 10:24:59,459 [application.py:post()] - Processing Uploaded File: Rose_3cm_slim_0.2mm_PLA_Generic Klipper Printer_7h30m.gcode
+2026-03-19 10:25:01,463 [shell_command.py:pipe_data_received()] - INFO:metadata:Processor preprocess_cancellation is disabled
+
+2026-03-19 10:25:01,849 [shell_command.py:_check_proc_success()] - Command (/home/biqu/moonraker-env/bin/python /home/biqu/moonraker/moonraker/components/file_manager/metadata.py -c /tmp/metacfg-t7imosbm.json) successfully finished
+2026-03-19 10:25:01,854 [klippy_apis.py:start_print()] - Requesting Job Start, filename = Rose_3cm_slim_0.2mm_PLA_Generic Klipper Printer_7h30m.gcode
+2026-03-19 10:25:01,856 [file_manager.py:_check_action()] - 
+Inotify action mismatch:
+Expected action: create_file, Inotify action: modify_file
+Requested path: /home/biqu/printer_data/gcodes/Rose_3cm_slim_0.2mm_PLA_Generic Klipper Printer_7h30m.gcode
+Inotify path: /home/biqu/printer_data/gcodes/Rose_3cm_slim_0.2mm_PLA_Generic Klipper Printer_7h30m.gcode
+Is move/copy: False
+2026-03-19 10:25:01,910 [application.py:log_request()] - 201 POST /api/files/local (10.0.250.135) [_TRUSTED_USER_] 10894.04ms
+2026-03-19 10:25:02,016 [job_state.py:_send_job_event()] - Job Started: Rose_3cm_slim_0.2mm_PLA_Generic Klipper Printer_7h30m.gcode
+2026-03-19 10:31:32,721 [application.py:prepare()] - Upload Request Received from 10.0.250.135
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundaryNK5ggwByTRInWyf7
+2026-03-19 10:31:32,748 [application.py:post()] - Processing Uploaded File: Start_End_Macro.cfg
+2026-03-19 10:31:32,764 [application.py:log_request()] - 201 POST /server/files/upload (10.0.250.135) [_TRUSTED_USER_] 45.51ms
+2026-03-19 10:31:51,473 [application.py:prepare()] - Upload Request Received from 10.0.250.135
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundaryFicW2dXwsXSJQwZm
+2026-03-19 10:31:51,506 [application.py:post()] - Processing Uploaded File: Start_End_Macro.cfg
+2026-03-19 10:31:51,524 [application.py:log_request()] - 201 POST /server/files/upload (10.0.250.135) [_TRUSTED_USER_] 53.45ms
+2026-03-19 10:31:52,612 [klippy_connection.py:_on_connection_closed()] - Klippy Connection Removed
+2026-03-19 10:31:53,880 [klippy_connection.py:_do_connect()] - Klippy Connection Established
+2026-03-19 10:31:58,053 [klippy_connection.py:_request_initial_subscriptions()] - Webhooks Subscribed
+2026-03-19 10:31:58,058 [klippy_connection.py:_request_initial_subscriptions()] - GCode Output Subscribed
+2026-03-19 10:31:58,300 [job_state.py:_handle_started()] - Job state initialized: standby
+2026-03-19 10:31:58,567 [klippy_connection.py:_check_ready()] - Klippy ready
+2026-03-19 10:31:58,634 [file_manager.py:get_file_list()] - Updating File List <gcodes>...
+2026-03-19 10:31:59,244 [data_store.py:_init_sensors()] - Configuring available sensors: ['heater_bed', 'extruder', 'extruder1']
+2026-03-19 10:35:18,174 [websockets.py:on_close()] - Websocket Closed: ID: 281472895191360 Close Code: 1001, Close Reason: None, Pong Time Elapsed: 12.07
+2026-03-19 10:35:18,856 [application.py:log_request()] - 101 GET /websocket (10.0.250.135) [_TRUSTED_USER_] 5.61ms
+2026-03-19 10:35:18,857 [websockets.py:open()] - Websocket Opened: ID: 281473234524144, Proxied: True, User Agent: BBL-Slicer/v01.10.01.50 (light) Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36 Edg/107.0.1418.52, Host Name: 10.0.250.143
+2026-03-19 10:35:18,982 [websockets.py:_handle_identify()] - Websocket 281473234524144 Client Identified - Name: mainsail, Version: 2.14.0, Type: web
+2026-03-19 10:36:35,332 [application.py:prepare()] - Upload Request Received from 10.0.250.135
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundarywEeq7EHeeMYs76fk
+2026-03-19 10:36:35,360 [application.py:post()] - Processing Uploaded File: Start_End_Macro.cfg
+2026-03-19 10:36:35,379 [application.py:log_request()] - 201 POST /server/files/upload (10.0.250.135) [_TRUSTED_USER_] 49.53ms
+2026-03-19 10:36:36,483 [klippy_connection.py:_on_connection_closed()] - Klippy Connection Removed
+2026-03-19 10:36:37,567 [common.py:build_error()] - JSON-RPC Request Error - Requested Method: printer.objects.query, Code: 503, Message: Klippy Host not connected
+2026-03-19 10:36:37,575 [common.py:build_error()] - JSON-RPC Request Error - Requested Method: printer.info, Code: 503, Message: Klippy Host not connected
+2026-03-19 10:36:37,586 [common.py:build_error()] - JSON-RPC Request Error - Requested Method: printer.objects.query, Code: 503, Message: Klippy Host not connected
+2026-03-19 10:36:37,752 [klippy_connection.py:_do_connect()] - Klippy Connection Established
+2026-03-19 10:36:42,052 [klippy_connection.py:_request_initial_subscriptions()] - Webhooks Subscribed
+2026-03-19 10:36:42,058 [klippy_connection.py:_request_initial_subscriptions()] - GCode Output Subscribed
+2026-03-19 10:36:42,304 [job_state.py:_handle_started()] - Job state initialized: standby
+2026-03-19 10:36:42,589 [klippy_connection.py:_check_ready()] - Klippy ready
+2026-03-19 10:36:42,662 [file_manager.py:get_file_list()] - Updating File List <gcodes>...
+2026-03-19 10:36:43,317 [data_store.py:_init_sensors()] - Configuring available sensors: ['heater_bed', 'extruder', 'extruder1']
+2026-03-19 10:45:02,601 [application.py:prepare()] - Upload Request Received from 10.0.250.135
+Content-Type: multipart/form-data; boundary=------------------------e8352c409ab2a54d
+2026-03-19 10:45:15,412 [application.py:post()] - Processing Uploaded File: Rose_3cm_slim_0.2mm_PLA_Generic Klipper Printer_7h30m.gcode
+2026-03-19 10:45:17,317 [shell_command.py:pipe_data_received()] - INFO:metadata:Processor preprocess_cancellation is disabled
+
+2026-03-19 10:45:17,703 [shell_command.py:_check_proc_success()] - Command (/home/biqu/moonraker-env/bin/python /home/biqu/moonraker/moonraker/components/file_manager/metadata.py -c /tmp/metacfg-h5m_rjle.json) successfully finished
+2026-03-19 10:45:17,708 [klippy_apis.py:start_print()] - Requesting Job Start, filename = Rose_3cm_slim_0.2mm_PLA_Generic Klipper Printer_7h30m.gcode
+2026-03-19 10:45:17,710 [file_manager.py:_check_action()] - 
+Inotify action mismatch:
+Expected action: create_file, Inotify action: modify_file
+Requested path: /home/biqu/printer_data/gcodes/Rose_3cm_slim_0.2mm_PLA_Generic Klipper Printer_7h30m.gcode
+Inotify path: /home/biqu/printer_data/gcodes/Rose_3cm_slim_0.2mm_PLA_Generic Klipper Printer_7h30m.gcode
+Is move/copy: False
+2026-03-19 10:45:17,767 [application.py:log_request()] - 201 POST /api/files/local (10.0.250.135) [_TRUSTED_USER_] 15168.76ms
+2026-03-19 10:45:17,869 [job_state.py:_send_job_event()] - Job Started: Rose_3cm_slim_0.2mm_PLA_Generic Klipper Printer_7h30m.gcode
+2026-03-19 10:45:18,017 [websockets.py:on_close()] - Websocket Closed: ID: 281473234524144 Close Code: 1001, Close Reason: None, Pong Time Elapsed: 19.05
+2026-03-19 10:45:18,671 [application.py:log_request()] - 101 GET /websocket (10.0.250.135) [_TRUSTED_USER_] 4.89ms
+2026-03-19 10:45:18,672 [websockets.py:open()] - Websocket Opened: ID: 281473232848544, Proxied: True, User Agent: BBL-Slicer/v01.10.01.50 (light) Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36 Edg/107.0.1418.52, Host Name: 10.0.250.143
+2026-03-19 10:45:18,770 [websockets.py:_handle_identify()] - Websocket 281473232848544 Client Identified - Name: mainsail, Version: 2.14.0, Type: web
+2026-03-19 10:46:25,312 [klippy_connection.py:wait()] - Request 'gcode/script' pending: 60.00 seconds
+2026-03-19 10:47:25,315 [klippy_connection.py:wait()] - Request 'gcode/script' pending: 120.00 seconds
+2026-03-19 10:48:25,317 [klippy_connection.py:wait()] - Request 'gcode/script' pending: 180.01 seconds
+2026-03-19 10:49:51,179 [application.py:prepare()] - Upload Request Received from 10.0.250.135
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary2rpTSEBuhlMa8vkG
+2026-03-19 10:49:51,206 [application.py:post()] - Processing Uploaded File: Start_End_Macro.cfg
+2026-03-19 10:49:51,223 [application.py:log_request()] - 201 POST /server/files/upload (10.0.250.135) [_TRUSTED_USER_] 46.38ms
+2026-03-19 10:49:52,313 [klippy_connection.py:_on_connection_closed()] - Klippy Connection Removed
+2026-03-19 10:49:53,580 [klippy_connection.py:_do_connect()] - Klippy Connection Established
+2026-03-19 10:49:57,633 [file_manager.py:get_file_list()] - Updating File List <gcodes>...
+2026-03-19 10:49:58,055 [klippy_connection.py:_request_initial_subscriptions()] - Webhooks Subscribed
+2026-03-19 10:49:58,061 [klippy_connection.py:_request_initial_subscriptions()] - GCode Output Subscribed
+2026-03-19 10:49:58,344 [job_state.py:_handle_started()] - Job state initialized: standby
+2026-03-19 10:49:58,594 [klippy_connection.py:_check_ready()] - Klippy ready
+2026-03-19 10:49:59,063 [data_store.py:_init_sensors()] - Configuring available sensors: ['heater_bed', 'extruder', 'extruder1']
+2026-03-19 10:50:07,474 [klippy_apis.py:start_print()] - Requesting Job Start, filename = Rose_3cm_slim_0.2mm_PLA_Generic Klipper Printer_7h30m.gcode
+2026-03-19 10:50:07,602 [job_state.py:_send_job_event()] - Job Started: Rose_3cm_slim_0.2mm_PLA_Generic Klipper Printer_7h30m.gcode
+2026-03-19 10:52:36,483 [application.py:prepare()] - Upload Request Received from 10.0.250.135
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary855rOYFLgc5U1zJi
+2026-03-19 10:52:36,511 [application.py:post()] - Processing Uploaded File: Start_End_Macro.cfg
+2026-03-19 10:52:36,526 [application.py:log_request()] - 201 POST /server/files/upload (10.0.250.135) [_TRUSTED_USER_] 47.80ms
+2026-03-19 10:54:41,499 [application.py:prepare()] - Upload Request Received from 10.0.250.135
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundaryUEL4JsEVqk3BsDLv
+2026-03-19 10:54:41,525 [application.py:post()] - Processing Uploaded File: Start_End_Macro.cfg
+2026-03-19 10:54:41,542 [application.py:log_request()] - 201 POST /server/files/upload (10.0.250.135) [_TRUSTED_USER_] 45.56ms
+2026-03-19 10:54:42,621 [klippy_connection.py:_on_connection_closed()] - Klippy Connection Removed
+2026-03-19 10:54:43,892 [klippy_connection.py:_do_connect()] - Klippy Connection Established
+2026-03-19 10:54:48,057 [klippy_connection.py:_request_initial_subscriptions()] - Webhooks Subscribed
+2026-03-19 10:54:48,063 [klippy_connection.py:_request_initial_subscriptions()] - GCode Output Subscribed
+2026-03-19 10:54:48,307 [job_state.py:_handle_started()] - Job state initialized: standby
+2026-03-19 10:54:48,576 [klippy_connection.py:_check_ready()] - Klippy ready
+2026-03-19 10:54:48,644 [file_manager.py:get_file_list()] - Updating File List <gcodes>...
+2026-03-19 10:54:49,062 [data_store.py:_init_sensors()] - Configuring available sensors: ['heater_bed', 'extruder', 'extruder1']
+2026-03-19 10:55:07,883 [klippy_apis.py:start_print()] - Requesting Job Start, filename = Rose_3cm_slim_0.2mm_PLA_Generic Klipper Printer_7h30m.gcode
+2026-03-19 10:55:08,132 [job_state.py:_send_job_event()] - Job Started: Rose_3cm_slim_0.2mm_PLA_Generic Klipper Printer_7h30m.gcode
+2026-03-19 10:58:57,432 [klippy_apis.py:cancel_print()] - Requesting job cancel...
+2026-03-19 11:57:55,775 [authorization.py:_prune_conn_handler()] - Trusted Connection Expired, IP: 10.0.250.135
+2026-03-19 11:57:55,776 [authorization.py:_prune_conn_handler()] - Trusted Connection Expired, IP: 127.0.0.1
+2026-03-19 14:13:08,422 [authorization.py:_check_trusted_connection()] - Trusted Connection Detected, IP: 10.0.250.135
+2026-03-19 14:15:21,998 [application.py:prepare()] - Upload Request Received from 10.0.250.135
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundarycm0HYpklRTMgjBAv
+2026-03-19 14:15:22,114 [application.py:post()] - Processing Uploaded File: macros.cfg
+2026-03-19 14:15:22,132 [application.py:log_request()] - 201 POST /server/files/upload (10.0.250.135) [_TRUSTED_USER_] 137.28ms
+2026-03-19 14:15:23,203 [klippy_connection.py:_on_connection_closed()] - Klippy Connection Removed
+2026-03-19 14:15:24,471 [klippy_connection.py:_do_connect()] - Klippy Connection Established
+2026-03-19 14:15:26,113 [klippy_connection.py:_request_initial_subscriptions()] - Webhooks Subscribed
+2026-03-19 14:15:26,116 [klippy_connection.py:_request_initial_subscriptions()] - GCode Output Subscribed
+2026-03-19 14:15:26,122 [klippy_connection.py:_check_ready()] - 
+gcode command BED_MESH_CALIBRATE already registered
+
+Once the underlying issue is corrected, use the "RESTART"
+command to reload the config and restart the host software.
+Printer is halted
+
+2026-03-19 14:15:28,236 [authorization.py:_check_trusted_connection()] - Trusted Connection Detected, IP: 127.0.0.1
+2026-03-19 14:15:42,949 [klippy_connection.py:_on_connection_closed()] - Klippy Connection Removed
+2026-03-19 14:15:44,216 [klippy_connection.py:_do_connect()] - Klippy Connection Established
+2026-03-19 14:15:45,831 [klippy_connection.py:_request_initial_subscriptions()] - Webhooks Subscribed
+2026-03-19 14:15:45,837 [klippy_connection.py:_request_initial_subscriptions()] - GCode Output Subscribed
+2026-03-19 14:15:45,846 [klippy_connection.py:_check_ready()] - 
+gcode command BED_MESH_CALIBRATE already registered
+
+Once the underlying issue is corrected, use the "RESTART"
+command to reload the config and restart the host software.
+Printer is halted
+
+2026-03-19 14:21:33,194 [application.py:prepare()] - Upload Request Received from 10.0.250.135
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundarytDiDG9lF2rBzqKh8
+2026-03-19 14:21:33,232 [application.py:post()] - Processing Uploaded File: macros.cfg
+2026-03-19 14:21:33,247 [application.py:log_request()] - 201 POST /server/files/upload (10.0.250.135) [_TRUSTED_USER_] 57.08ms
+2026-03-19 14:21:51,723 [klippy_connection.py:_on_connection_closed()] - Klippy Connection Removed
+2026-03-19 14:21:52,994 [klippy_connection.py:_do_connect()] - Klippy Connection Established
+2026-03-19 14:21:57,045 [klippy_connection.py:_request_initial_subscriptions()] - Webhooks Subscribed
+2026-03-19 14:21:57,050 [klippy_connection.py:_request_initial_subscriptions()] - GCode Output Subscribed
+2026-03-19 14:21:57,110 [file_manager.py:get_file_list()] - Updating File List <gcodes>...
+2026-03-19 14:21:57,296 [job_state.py:_handle_started()] - Job state initialized: standby
+2026-03-19 14:21:57,566 [klippy_connection.py:_check_ready()] - Klippy ready
+2026-03-19 14:21:58,048 [data_store.py:_init_sensors()] - Configuring available sensors: ['heater_bed', 'extruder', 'extruder1']
+2026-03-19 14:23:20,196 [klippy_apis.py:start_print()] - Requesting Job Start, filename = Rose_3cm_slim_0.2mm_PLA_Generic Klipper Printer_7h30m.gcode
+2026-03-19 14:23:20,346 [job_state.py:_send_job_event()] - Job Started: Rose_3cm_slim_0.2mm_PLA_Generic Klipper Printer_7h30m.gcode
+2026-03-19 14:27:43,328 [klippy_apis.py:cancel_print()] - Requesting job cancel...
+2026-03-19 14:27:44,111 [klippy_connection.py:_process_status_update()] - Klippy has shutdown
+2026-03-19 14:27:44,136 [proc_stats.py:_handle_shutdown()] - 
+Moonraker System Usage Statistics:
+System Time: 1773926834.175053, Usage: 9.92%, Memory: 53468 kB
+System Time: 1773926835.176699, Usage: 5.53%, Memory: 53468 kB
+System Time: 1773926836.177016, Usage: 9.66%, Memory: 53468 kB
+System Time: 1773926837.177995, Usage: 3.76%, Memory: 53468 kB
+System Time: 1773926838.179594, Usage: 9.95%, Memory: 53468 kB
+System Time: 1773926839.181137, Usage: 3.75%, Memory: 53468 kB
+System Time: 1773926840.182725, Usage: 9.68%, Memory: 53468 kB
+System Time: 1773926841.183386, Usage: 3.73%, Memory: 53468 kB
+System Time: 1773926842.185170, Usage: 9.59%, Memory: 53468 kB
+System Time: 1773926843.186043, Usage: 4.37%, Memory: 53468 kB
+System Time: 1773926844.188432, Usage: 9.28%, Memory: 53468 kB
+System Time: 1773926845.190187, Usage: 6.19%, Memory: 53468 kB
+System Time: 1773926846.190656, Usage: 10.53%, Memory: 53468 kB
+System Time: 1773926847.191433, Usage: 3.69%, Memory: 53468 kB
+System Time: 1773926848.192311, Usage: 9.31%, Memory: 53468 kB
+System Time: 1773926849.193947, Usage: 3.65%, Memory: 53468 kB
+System Time: 1773926850.195576, Usage: 9.61%, Memory: 53468 kB
+System Time: 1773926851.195904, Usage: 3.77%, Memory: 53468 kB
+System Time: 1773926852.197492, Usage: 9.03%, Memory: 53468 kB
+System Time: 1773926853.199571, Usage: 4.32%, Memory: 53468 kB
+System Time: 1773926854.207475, Usage: 7.89%, Memory: 53468 kB
+System Time: 1773926855.202542, Usage: 8.78%, Memory: 53468 kB
+System Time: 1773926856.203475, Usage: 3.7%, Memory: 53468 kB
+System Time: 1773926857.204605, Usage: 9.65%, Memory: 53468 kB
+System Time: 1773926858.205248, Usage: 3.59%, Memory: 53468 kB
+System Time: 1773926859.206751, Usage: 9.48%, Memory: 53468 kB
+System Time: 1773926860.208593, Usage: 3.69%, Memory: 53468 kB
+System Time: 1773926861.213275, Usage: 9.85%, Memory: 53468 kB
+System Time: 1773926862.212240, Usage: 5.29%, Memory: 53468 kB
+System Time: 1773926863.212816, Usage: 10.3%, Memory: 53468 kB
+CPU Temperature: 55.061
+2026-03-19 14:27:44,655 [common.py:build_error()] - JSON-RPC Request Error - Requested Method: printer.print.cancel, Code: 400, Message: Shutdown due to webhooks request
+Once the underlying issue is corrected, use the
+"FIRMWARE_RESTART" command to reset the firmware, reload the
+config, and restart the host software.
+Printer is shutdown
+
+2026-03-19 14:27:47,122 [klippy_connection.py:_on_connection_closed()] - Klippy Connection Removed
+2026-03-19 14:27:48,392 [klippy_connection.py:_do_connect()] - Klippy Connection Established
+2026-03-19 14:27:51,545 [klippy_connection.py:_request_initial_subscriptions()] - Webhooks Subscribed
+2026-03-19 14:27:51,561 [klippy_connection.py:_request_initial_subscriptions()] - GCode Output Subscribed
+2026-03-19 14:27:51,570 [klippy_connection.py:_check_ready()] - 
+Can not update MCU 'mcu' config as it is shutdown
+Once the underlying issue is corrected, use the
+"FIRMWARE_RESTART" command to reset the firmware, reload the
+config, and restart the host software.
+Error configuring printer
+
+2026-03-19 14:28:07,904 [klippy_connection.py:_on_connection_closed()] - Klippy Connection Removed
+2026-03-19 14:28:09,172 [klippy_connection.py:_do_connect()] - Klippy Connection Established
+2026-03-19 14:28:13,122 [file_manager.py:get_file_list()] - Updating File List <gcodes>...
+2026-03-19 14:28:13,313 [klippy_connection.py:_request_initial_subscriptions()] - Webhooks Subscribed
+2026-03-19 14:28:13,318 [klippy_connection.py:_request_initial_subscriptions()] - GCode Output Subscribed
+2026-03-19 14:28:13,564 [job_state.py:_handle_started()] - Job state initialized: standby
+2026-03-19 14:28:13,834 [klippy_connection.py:_check_ready()] - Klippy ready
+2026-03-19 14:28:14,318 [data_store.py:_init_sensors()] - Configuring available sensors: ['heater_bed', 'extruder', 'extruder1']
+2026-03-19 14:30:15,272 [klippy_apis.py:start_print()] - Requesting Job Start, filename = Rose_3cm_slim_0.2mm_PLA_Generic Klipper Printer_7h30m.gcode
+2026-03-19 14:30:15,505 [job_state.py:_send_job_event()] - Job Started: Rose_3cm_slim_0.2mm_PLA_Generic Klipper Printer_7h30m.gcode
+2026-03-19 14:34:06,769 [klippy_apis.py:cancel_print()] - Requesting job cancel...
+2026-03-19 14:35:07,170 [application.py:prepare()] - Upload Request Received from 10.0.250.135
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundaryIOQqxWg29k8GniuV
+2026-03-19 14:35:07,198 [application.py:post()] - Processing Uploaded File: Start_End_Macro.cfg
+2026-03-19 14:35:07,215 [application.py:log_request()] - 201 POST /server/files/upload (10.0.250.135) [_TRUSTED_USER_] 47.93ms
+2026-03-19 14:35:08,298 [klippy_connection.py:_on_connection_closed()] - Klippy Connection Removed
+2026-03-19 14:35:09,565 [klippy_connection.py:_do_connect()] - Klippy Connection Established
+2026-03-19 14:35:13,622 [file_manager.py:get_file_list()] - Updating File List <gcodes>...
+2026-03-19 14:35:13,788 [klippy_connection.py:_request_initial_subscriptions()] - Webhooks Subscribed
+2026-03-19 14:35:13,794 [klippy_connection.py:_request_initial_subscriptions()] - GCode Output Subscribed
+2026-03-19 14:35:14,295 [job_state.py:_handle_started()] - Job state initialized: standby
+2026-03-19 14:35:14,583 [klippy_connection.py:_check_ready()] - Klippy ready
+2026-03-19 14:35:15,056 [data_store.py:_init_sensors()] - Configuring available sensors: ['heater_bed', 'extruder', 'extruder1']
+2026-03-19 14:35:51,819 [klippy_apis.py:start_print()] - Requesting Job Start, filename = Rose_3cm_slim_0.2mm_PLA_Generic Klipper Printer_7h30m.gcode
+2026-03-19 14:35:51,944 [job_state.py:_send_job_event()] - Job Started: Rose_3cm_slim_0.2mm_PLA_Generic Klipper Printer_7h30m.gcode
+2026-03-19 14:37:55,922 [klippy_apis.py:cancel_print()] - Requesting job cancel...
+2026-03-19 14:39:29,430 [application.py:prepare()] - Upload Request Received from 10.0.250.135
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundaryVWSvsB6UDFDMZ35O
+2026-03-19 14:39:29,456 [application.py:post()] - Processing Uploaded File: Start_End_Macro.cfg
+2026-03-19 14:39:29,471 [application.py:log_request()] - 201 POST /server/files/upload (10.0.250.135) [_TRUSTED_USER_] 44.06ms
+2026-03-19 14:39:30,545 [klippy_connection.py:_on_connection_closed()] - Klippy Connection Removed
+2026-03-19 14:39:31,813 [klippy_connection.py:_do_connect()] - Klippy Connection Established
+2026-03-19 14:39:36,068 [klippy_connection.py:_request_initial_subscriptions()] - Webhooks Subscribed
+2026-03-19 14:39:36,073 [klippy_connection.py:_request_initial_subscriptions()] - GCode Output Subscribed
+2026-03-19 14:39:36,318 [job_state.py:_handle_started()] - Job state initialized: standby
+2026-03-19 14:39:36,589 [klippy_connection.py:_check_ready()] - Klippy ready
+2026-03-19 14:39:36,688 [file_manager.py:get_file_list()] - Updating File List <gcodes>...
+2026-03-19 14:39:37,071 [data_store.py:_init_sensors()] - Configuring available sensors: ['heater_bed', 'extruder', 'extruder1']
+2026-03-19 14:39:47,925 [klippy_apis.py:start_print()] - Requesting Job Start, filename = Rose_3cm_slim_0.2mm_PLA_Generic Klipper Printer_7h30m.gcode
+2026-03-19 14:39:48,113 [job_state.py:_send_job_event()] - Job Started: Rose_3cm_slim_0.2mm_PLA_Generic Klipper Printer_7h30m.gcode
+2026-03-19 14:41:41,881 [klippy_apis.py:cancel_print()] - Requesting job cancel...
+2026-03-19 14:43:33,993 [application.py:prepare()] - Upload Request Received from 10.0.250.135
+Content-Type: multipart/form-data; boundary=------------------------703f9059dcc07e81
+2026-03-19 14:43:48,337 [application.py:post()] - Processing Uploaded File: Rose_3cm_slim_0.2mm_PLA_Generic Klipper Printer_2h9m.gcode
+2026-03-19 14:43:49,314 [shell_command.py:pipe_data_received()] - INFO:metadata:Processor preprocess_cancellation is disabled
+
+2026-03-19 14:43:49,691 [shell_command.py:_check_proc_success()] - Command (/home/biqu/moonraker-env/bin/python /home/biqu/moonraker/moonraker/components/file_manager/metadata.py -c /tmp/metacfg-7v_thsxp.json) successfully finished
+2026-03-19 14:43:49,696 [klippy_apis.py:start_print()] - Requesting Job Start, filename = Rose_3cm_slim_0.2mm_PLA_Generic Klipper Printer_2h9m.gcode
+2026-03-19 14:43:49,697 [file_manager.py:_check_action()] - 
+Inotify action mismatch:
+Expected action: create_file, Inotify action: modify_file
+Requested path: /home/biqu/printer_data/gcodes/Rose_3cm_slim_0.2mm_PLA_Generic Klipper Printer_2h9m.gcode
+Inotify path: /home/biqu/printer_data/gcodes/Rose_3cm_slim_0.2mm_PLA_Generic Klipper Printer_2h9m.gcode
+Is move/copy: False
+2026-03-19 14:43:49,750 [application.py:log_request()] - 201 POST /api/files/local (10.0.250.135) [_TRUSTED_USER_] 15758.78ms
+2026-03-19 14:43:49,849 [job_state.py:_send_job_event()] - Job Started: Rose_3cm_slim_0.2mm_PLA_Generic Klipper Printer_2h9m.gcode
+2026-03-19 14:43:50,011 [websockets.py:on_close()] - Websocket Closed: ID: 281473232848544 Close Code: 1001, Close Reason: None, Pong Time Elapsed: 15.98
+2026-03-19 14:43:50,782 [application.py:log_request()] - 101 GET /websocket (10.0.250.135) [_TRUSTED_USER_] 5.10ms
+2026-03-19 14:43:50,783 [websockets.py:open()] - Websocket Opened: ID: 281473232850608, Proxied: True, User Agent: BBL-Slicer/v01.10.01.50 (light) Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36 Edg/107.0.1418.52, Host Name: 10.0.250.143
+2026-03-19 14:43:50,841 [websockets.py:_handle_identify()] - Websocket 281473232850608 Client Identified - Name: mainsail, Version: 2.14.0, Type: web
+2026-03-19 14:47:26,510 [application.py:prepare()] - Upload Request Received from 10.0.250.135
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundarynw60sGumQyrpI7XA
+2026-03-19 14:47:26,538 [application.py:post()] - Processing Uploaded File: Start_End_Macro.cfg
+2026-03-19 14:47:26,554 [application.py:log_request()] - 201 POST /server/files/upload (10.0.250.135) [_TRUSTED_USER_] 46.42ms
+2026-03-19 14:47:27,634 [klippy_connection.py:_on_connection_closed()] - Klippy Connection Removed
+2026-03-19 14:47:28,903 [klippy_connection.py:_do_connect()] - Klippy Connection Established
+2026-03-19 14:47:33,067 [klippy_connection.py:_request_initial_subscriptions()] - Webhooks Subscribed
+2026-03-19 14:47:33,073 [klippy_connection.py:_request_initial_subscriptions()] - GCode Output Subscribed
+2026-03-19 14:47:33,318 [job_state.py:_handle_started()] - Job state initialized: standby
+2026-03-19 14:47:33,586 [klippy_connection.py:_check_ready()] - Klippy ready
+2026-03-19 14:47:33,653 [file_manager.py:get_file_list()] - Updating File List <gcodes>...
+2026-03-19 14:47:34,093 [data_store.py:_init_sensors()] - Configuring available sensors: ['heater_bed', 'extruder', 'extruder1']
+2026-03-19 14:47:48,669 [klippy_apis.py:start_print()] - Requesting Job Start, filename = Rose_3cm_slim_0.2mm_PLA_Generic Klipper Printer_2h9m.gcode
+2026-03-19 14:47:48,876 [job_state.py:_send_job_event()] - Job Started: Rose_3cm_slim_0.2mm_PLA_Generic Klipper Printer_2h9m.gcode
+2026-03-19 14:50:17,215 [klippy_apis.py:cancel_print()] - Requesting job cancel...
+2026-03-19 14:51:49,686 [application.py:prepare()] - Upload Request Received from 10.0.250.135
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundaryrTvbLDqIvyAhvdy6
+2026-03-19 14:51:49,724 [application.py:post()] - Processing Uploaded File: macros.cfg
+2026-03-19 14:51:49,742 [application.py:log_request()] - 201 POST /server/files/upload (10.0.250.135) [_TRUSTED_USER_] 59.81ms
+2026-03-19 14:51:50,842 [klippy_connection.py:_on_connection_closed()] - Klippy Connection Removed
+2026-03-19 14:51:52,110 [klippy_connection.py:_do_connect()] - Klippy Connection Established
+2026-03-19 14:51:56,100 [file_manager.py:get_file_list()] - Updating File List <gcodes>...
+2026-03-19 14:51:56,295 [klippy_connection.py:_request_initial_subscriptions()] - Webhooks Subscribed
+2026-03-19 14:51:56,301 [klippy_connection.py:_request_initial_subscriptions()] - GCode Output Subscribed
+2026-03-19 14:51:56,545 [job_state.py:_handle_started()] - Job state initialized: standby
+2026-03-19 14:51:56,816 [klippy_connection.py:_check_ready()] - Klippy ready
+2026-03-19 14:51:57,304 [data_store.py:_init_sensors()] - Configuring available sensors: ['heater_bed', 'extruder', 'extruder1']
+2026-03-19 14:52:45,047 [klippy_apis.py:start_print()] - Requesting Job Start, filename = Rose_3cm_slim_0.2mm_PLA_Generic Klipper Printer_2h9m.gcode
+2026-03-19 14:52:45,213 [job_state.py:_send_job_event()] - Job Started: Rose_3cm_slim_0.2mm_PLA_Generic Klipper Printer_2h9m.gcode
+2026-03-19 14:59:37,301 [application.py:prepare()] - Upload Request Received from 10.0.250.135
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundarybN5QuH7AIR3nJ4li
+2026-03-19 14:59:37,337 [application.py:post()] - Processing Uploaded File: macros.cfg
+2026-03-19 14:59:37,354 [application.py:log_request()] - 201 POST /server/files/upload (10.0.250.135) [_TRUSTED_USER_] 58.41ms
+2026-03-19 14:59:38,459 [klippy_connection.py:_on_connection_closed()] - Klippy Connection Removed
+2026-03-19 14:59:39,728 [klippy_connection.py:_do_connect()] - Klippy Connection Established
+2026-03-19 14:59:43,709 [file_manager.py:get_file_list()] - Updating File List <gcodes>...
+2026-03-19 14:59:44,126 [klippy_connection.py:_request_initial_subscriptions()] - Webhooks Subscribed
+2026-03-19 14:59:44,132 [klippy_connection.py:_request_initial_subscriptions()] - GCode Output Subscribed
+2026-03-19 14:59:44,376 [job_state.py:_handle_started()] - Job state initialized: standby
+2026-03-19 14:59:44,649 [klippy_connection.py:_check_ready()] - Klippy ready
+2026-03-19 14:59:45,387 [data_store.py:_init_sensors()] - Configuring available sensors: ['heater_bed', 'extruder', 'extruder1']
+2026-03-19 14:59:55,692 [klippy_apis.py:start_print()] - Requesting Job Start, filename = Rose_3cm_slim_0.2mm_PLA_Generic Klipper Printer_2h9m.gcode
+2026-03-19 14:59:55,920 [job_state.py:_send_job_event()] - Job Started: Rose_3cm_slim_0.2mm_PLA_Generic Klipper Printer_2h9m.gcode
+2026-03-19 15:09:35,120 [application.py:prepare()] - Upload Request Received from 10.0.250.135
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundaryJNjX8zjYHVsUAIbf
+2026-03-19 15:09:35,149 [application.py:post()] - Processing Uploaded File: macros.cfg
+2026-03-19 15:09:35,165 [application.py:log_request()] - 201 POST /server/files/upload (10.0.250.135) [_TRUSTED_USER_] 47.64ms
+2026-03-19 15:09:36,272 [klippy_connection.py:_on_connection_closed()] - Klippy Connection Removed
+2026-03-19 15:09:37,539 [klippy_connection.py:_do_connect()] - Klippy Connection Established
+2026-03-19 15:09:41,555 [klippy_connection.py:_request_initial_subscriptions()] - Webhooks Subscribed
+2026-03-19 15:09:41,562 [klippy_connection.py:_request_initial_subscriptions()] - GCode Output Subscribed
+2026-03-19 15:09:41,630 [file_manager.py:get_file_list()] - Updating File List <gcodes>...
+2026-03-19 15:09:41,789 [job_state.py:_handle_started()] - Job state initialized: standby
+2026-03-19 15:09:42,069 [klippy_connection.py:_check_ready()] - Klippy ready
+2026-03-19 15:09:42,805 [data_store.py:_init_sensors()] - Configuring available sensors: ['heater_bed', 'extruder', 'extruder1']
