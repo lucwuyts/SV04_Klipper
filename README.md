@@ -66,7 +66,7 @@ Make sure Klipper, Moonraker and a web interface (Mainsail/Fluidd) are installed
 
 ```bash
 cp -r ~/printer_data/config ~/printer_data/config_backup
-
+```
 ---
 
 ### 3. Clone this repository
@@ -75,7 +75,7 @@ Go to your printer data folder:
 
 ```bash
 cd ~/printer_data
-
+```
 Clone the repo:
 git clone https://github.com/<your-repo>.git
 
