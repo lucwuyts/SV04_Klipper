@@ -1,16 +1,19 @@
-# Klipper rommel
+# Klipper runtime
 logs/
 gcodes/
 timelapse/
+backup/
 comms/
 database/
 misc/
 systemd/
 
+# Moonraker runtime
+.moonraker.*
 
-# Algemene rommel
+# Temp / OS
 *.log
 *.tmp
 *.cache
 *.bak
-.moonraker.*
+*.swp
