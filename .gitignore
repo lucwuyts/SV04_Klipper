@@ -10,6 +10,8 @@ systemd/
 
 # Moonraker runtime
 .moonraker.*
+.moonraker.uuid
+moonraker.asvc
 
 # Temp / OS
 *.log
