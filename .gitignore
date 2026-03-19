@@ -1,0 +1,16 @@
+# Klipper rommel
+logs/
+gcodes/
+timelapse/
+comms/
+database/
+misc/
+systemd/
+
+
+# Algemene rommel
+*.log
+*.tmp
+*.cache
+*.bak
+.moonraker.*
