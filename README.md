@@ -44,3 +44,63 @@ These can be imported into OrcaSlicer.
 ## 🔄 Usage
 
 Clone this repository to your Klipper configuration directory or use it as a backup/reference.
+
+
+
+---
+
+## 🔧 Installation Guide
+
+### 1. Install Klipper
+
+Install Klipper on your device (e.g. Raspberry Pi or BTT Pad) using your preferred method:
+
+- KIAUH (recommended)
+- Manual installation
+
+Make sure Klipper, Moonraker and a web interface (Mainsail/Fluidd) are installed.
+
+---
+
+### 2. Backup existing config (IMPORTANT)
+
+```bash
+cp -r ~/printer_data/config ~/printer_data/config_backup
+
+---
+
+### 3. Clone this repository
+
+Go to your printer data folder:
+
+```bash
+cd ~/printer_data
+
+Clone the repo:
+git clone https://github.com/<your-repo>.git
+
+--- 
+
+### 4. Copy configuration files
+
+Copy the Klipper config:
+cp -r <repo-folder>/config/* ~/printer_data/config/
+
+--- 
+
+### 5. Restart Klipper
+
+Restart the firmware:
+sudo service klipper restart
+
+Or restart via your web interface (Mainsail / Fluidd).
+
+--- 
+
+### 6. Verify configuration
+
+Check for errors in the Klipper console
+
+Run a RESTART command if needed
+
+Verify homing and movement before printing
