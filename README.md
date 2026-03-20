@@ -18,6 +18,11 @@ https://github.com/Bully85/Sovol-SV04-Klipper
 /orca/ → OrcaSlicer profiles
 
 
+## My hardware
+- Bigtreetech PAD7 with CP1 core board
+- Sovol SV04 (standard configuration with some enhancements for more stability)
+
+
 ## 🔧 Klipper Configuration
 
 The `config` folder contains all files used by Klipper on the printer, including:
